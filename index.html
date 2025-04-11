@@ -79,6 +79,7 @@
             transition: all 0.3s ease;
             cursor: pointer;
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
         }
         
         .game:hover {
@@ -629,15 +630,41 @@
             modText.style.display = 'none';
             settingsAnim.style.display = 'flex';
             
-            // إخفاء الأنميشن بعد 3 ثواني وعودة النص
+            // إخفاء الأنميشن بعد 3 ثواني وعرض اللوكر
             setTimeout(() => {
                 settingsAnim.style.display = 'none';
                 modText.style.display = 'block';
                 
-                // يمكنك هنا إضافة أي كود للتنزيل أو المعالجة
-                alert('تم تجهيز اللعبة بنجاح!');
+                // تحميل وتشغيل كود AdBlueMedia Locker
+                loadAdBlueMediaLocker();
             }, 3000);
         });
+        
+        // دالة لتحميل وتشغيل اللوكر
+        function loadAdBlueMediaLocker() {
+            // إغلاق المودال الحالي أولاً
+            document.getElementById('gameModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+            
+            // إنشاء عنصر script للتهيئة
+            const initScript = document.createElement('script');
+            initScript.type = 'text/javascript';
+            initScript.text = `
+                var gMBck_lme_zuORmc = {"it":4467179,"key":"97c0e"};
+            `;
+            document.body.appendChild(initScript);
+            
+            // إنشاء عنصر script للشفرة الرئيسية
+            const mainScript = document.createElement('script');
+            mainScript.src = "https://d2v7l2267atlz5.cloudfront.net/8159c76.js";
+            mainScript.onload = function() {
+                // تشغيل الدالة بعد تحميل السكريبت
+                if(typeof _ou === 'function') {
+                    _ou();
+                }
+            };
+            document.body.appendChild(mainScript);
+        }
         
         // زر "تنزيل"
         document.getElementById('downloadBtn').addEventListener('click', function() {
